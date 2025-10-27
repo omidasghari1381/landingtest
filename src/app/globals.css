@@ -1,3 +1,4 @@
+@config "../../tailwind.config.js";
 @import "tailwindcss";
 
 :root {
@@ -10,11 +11,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-primary-text: #0E0F1B;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #ffffff;
     --foreground: #ededed;
   }
 }
@@ -23,4 +25,220 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+:root{
+  --f: 2%;           
+  --outer-start: 90%; 
+}
+
+/* @keyframes textCircleFade {
+  0% {
+    clip-path: circle(70% at center);
+
+    -webkit-mask-image:
+      radial-gradient(circle at center, rgba(0,0,0,1) calc(70% - var(--f)), rgba(0,0,0,0) 70%),
+      radial-gradient(circle at center, rgba(0,0,0,1) var(--outer-start), rgba(0,0,0,0) 100%);
+            mask-image:
+      radial-gradient(circle at center, rgba(0,0,0,1) calc(70% - var(--f)), rgba(0,0,0,0) 70%),
+      radial-gradient(circle at center, rgba(0,0,0,1) var(--outer-start), rgba(0,0,0,0) 100%);
+
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100%;
+  }
+
+  35% {
+    clip-path: circle(21.4% at center);
+    -webkit-mask-image:
+      radial-gradient(circle at center, rgba(0,0,0,1) calc(21.3% - var(--f)), rgba(0,0,0,0) 21.3%),
+      radial-gradient(circle at center, rgba(0,0,0,1) var(--outer-start), rgba(0,0,0,0) 100%);
+            mask-image:
+      radial-gradient(circle at center, rgba(0,0,0,1) calc(21.3% - var(--f)), rgba(0,0,0,0) 21.3%),
+      radial-gradient(circle at center, rgba(0,0,0,1) var(--outer-start), rgba(0,0,0,0) 100%);
+  }
+  40% {
+    clip-path: circle(21.4% at center);
+    -webkit-mask-image:
+      radial-gradient(circle at center, rgba(0,0,0,1) calc(21.3% - var(--f)), rgba(0,0,0,0) 21.3%),
+      radial-gradient(circle at center, rgba(0,0,0,1) var(--outer-start), rgba(0,0,0,0) 100%);
+            mask-image:
+      radial-gradient(circle at center, rgba(0,0,0,1) calc(21.3% - var(--f)), rgba(0,0,0,0) 21.3%),
+      radial-gradient(circle at center, rgba(0,0,0,1) var(--outer-start), rgba(0,0,0,0) 100%);
+  }
+  65% {
+    clip-path: circle(80% at center);
+    -webkit-mask-image:
+      radial-gradient(circle at center, rgba(0,0,0,1) calc(80% - var(--f)), rgba(0,0,0,0) 80%),
+      radial-gradient(circle at center, rgba(0,0,0,1) var(--outer-start), rgba(0,0,0,0) 100%);
+            mask-image:
+      radial-gradient(circle at center, rgba(0,0,0,1) calc(80% - var(--f)), rgba(0,0,0,0) 80%),
+      radial-gradient(circle at center, rgba(0,0,0,1) var(--outer-start), rgba(0,0,0,0) 100%);
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100%;
+
+    opacity: 1;
+  }
+
+  100% { opacity: 0; }
+} */
+
+
+
+
+
+:root {
+  --f: 20%;
+  --outer-start: 90%;
+}
+
+@property --r {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 130%;
+}
+
+@keyframes textCircleFade {
+  0%   { --r: 130%;   opacity: 1; }
+  38%  { --r: 30%; opacity: 1; }
+  70%  { --r: 130%;   opacity: 1; }
+  100% { --r: 130%;   opacity: 0; }
+}
+
+.faded-circle {
+  mask-image:
+    radial-gradient(circle at center,
+      rgba(0,0,0,1) calc(var(--r) - var(--f)),
+      rgba(0,0,0,0) var(--r)),
+    radial-gradient(circle at center,
+      rgba(0,0,0,1) var(--outer-start),
+      rgba(0,0,0,0) 100%);
+  mask-composite: intersect;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  clip-path: circle(var(--r) at center);
+  will-change: opacity, clip-path;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faded-circle {
+    animation: none !important;
+    mask-image: none;
+    clip-path: none;
+    opacity: 1;
+  }
+}
+
+
+
+
+
+:root{
+  --inner-feather: 10%;
+  --outer-feather-start: 90%;
+  --outer-feather-end: 100%;
+}
+
+@property --r {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+@keyframes circleReveal {
+  0% {
+    visibility: visible;
+    --r: 0%;
+    clip-path: circle(var(--r) at 50% 50%);
+  }
+
+  100% {
+    visibility: visible;
+    --r: 200%;
+    clip-path: circle(var(--r) at 50% 50%);
+  }
+}
+
+.circle-reveal {
+  visibility: hidden;
+  -webkit-mask-image:
+    radial-gradient(circle at center,
+      rgba(0,0,0,1) calc(var(--r) - var(--inner-feather)),
+      rgba(0,0,0,0) var(--r)),
+    radial-gradient(circle at center,
+      rgba(0,0,0,1) var(--outer-feather-start),
+      rgba(0,0,0,0) var(--outer-feather-end));
+          mask-image:
+    radial-gradient(circle at center,
+      rgba(0,0,0,1) calc(var(--r) - var(--inner-feather)),
+      rgba(0,0,0,0) var(--r)),
+    radial-gradient(circle at center,
+      rgba(0,0,0,1) var(--outer-feather-start),
+      rgba(0,0,0,0) var(--outer-feather-end));
+
+  -webkit-mask-composite: source-in;
+          mask-composite: intersect;
+
+  animation-name: circleReveal;
+  animation-duration: 6.8s;
+  animation-timing-function: ease-out;
+  animation-delay: 2.1s;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+  will-change: clip-path, opacity, -webkit-mask-image, mask-image;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .circle-reveal {
+    animation: none;
+    opacity: 1;
+    visibility: visible;
+    -webkit-mask-image: none;
+            mask-image: none;
+    clip-path: none;
+  }
+}
+
+
+:root { --start-out: -270px; }
+
+@keyframes dropIn {
+  0% {
+    margin-top: var(--start-out);
+  }
+  100% {
+    margin-top: 0;
+  }
+}
+
+.slide-down {
+  animation: dropIn 0.7s ease-out 4.1s forwards;
+  animation-fill-mode: both;
+  overflow: hidden;
+}
+
+
+
+/* یک‌بار در global.css */
+.glass-powder {
+  --glass-bg: rgba(255,255,255,.06);
+  --halo: 0 12px 38px -10px rgba(0,0,0,.45);
+  --speckles:
+    radial-gradient(20px 18px at 15% 52%, rgba(255,255,255,.26), transparent 60%),
+    radial-gradient(24px 22px at 45% 47%, rgba(255,255,255,.18), transparent 65%),
+    radial-gradient(18px 16px at 70% 55%, rgba(255,255,255,.22), transparent 62%),
+    radial-gradient(14px 14px at 85% 48%, rgba(255,255,255,.16), transparent 62%);
+}
+.glass-powder { position:relative; overflow:hidden; }
+.glass-powder::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:var(--speckles); opacity:.55;
 }
